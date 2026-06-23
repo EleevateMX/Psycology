@@ -16,34 +16,21 @@ export default function Footer() {
               Encuentra tu psicólogo ideal en Mérida y toda la República Mexicana.
             </p>
             <div className="flex items-center gap-3">
-              <a
-                href="#"
-                className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram size={16} />
-              </a>
-              <a
-                href="#"
-                className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook size={16} />
-              </a>
-              <a
-                href="#"
-                className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter size={16} />
-              </a>
-              <a
-                href="#"
-                className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={16} />
-              </a>
+              {[
+                { icon: Instagram, label: 'Instagram' },
+                { icon: Facebook, label: 'Facebook' },
+                { icon: Twitter, label: 'Twitter' },
+                { icon: Linkedin, label: 'LinkedIn' },
+              ].map(({ icon: Icon, label }) => (
+                <a
+                  key={label}
+                  href="#"
+                  className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                  aria-label={label}
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
             </div>
           </div>
 
@@ -51,10 +38,16 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-sm uppercase tracking-wider text-violet-300 mb-4">Para Pacientes</h3>
             <ul className="space-y-2.5">
-              {['Buscar psicólogo', 'Especialidades', 'Psicólogos online', 'Preguntas frecuentes', 'Blog de salud mental'].map(item => (
-                <li key={item}>
-                  <Link href="#" className="text-violet-200 hover:text-white text-sm transition-colors">
-                    {item}
+              {[
+                { label: 'Buscar psicólogo', href: '/psicologos' },
+                { label: 'Psicólogos online', href: '/psicologos?online=1' },
+                { label: 'Blog de salud mental', href: '/blog' },
+                { label: 'Cómo funciona', href: '/#como-funciona' },
+                { label: 'Preguntas frecuentes', href: '#' },
+              ].map(item => (
+                <li key={item.label}>
+                  <Link href={item.href} className="text-violet-200 hover:text-white text-sm transition-colors">
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -65,24 +58,36 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-sm uppercase tracking-wider text-violet-300 mb-4">Para Psicólogos</h3>
             <ul className="space-y-2.5">
-              {['Crear perfil gratuito', 'Cómo funciona', 'Precios y planes', 'Recursos profesionales', 'Iniciar sesión'].map(item => (
-                <li key={item}>
-                  <Link href="#" className="text-violet-200 hover:text-white text-sm transition-colors">
-                    {item}
+              {[
+                { label: 'Crear perfil gratuito', href: '/unete' },
+                { label: 'Cómo funciona', href: '/#como-funciona' },
+                { label: 'Precios y planes', href: '/unete' },
+                { label: 'Recursos profesionales', href: '/blog' },
+                { label: 'Iniciar sesión', href: '#' },
+              ].map(item => (
+                <li key={item.label}>
+                  <Link href={item.href} className="text-violet-200 hover:text-white text-sm transition-colors">
+                    {item.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Empresa */}
+          {/* Blog */}
           <div>
-            <h3 className="font-semibold text-sm uppercase tracking-wider text-violet-300 mb-4">Empresa</h3>
+            <h3 className="font-semibold text-sm uppercase tracking-wider text-violet-300 mb-4">Blog</h3>
             <ul className="space-y-2.5">
-              {['Sobre nosotros', 'Misión y valores', 'Equipo', 'Prensa', 'Trabaja con nosotros'].map(item => (
-                <li key={item}>
-                  <Link href="#" className="text-violet-200 hover:text-white text-sm transition-colors">
-                    {item}
+              {[
+                { label: 'Salud mental', href: '/blog' },
+                { label: 'Ansiedad y estrés', href: '/blog/ansiedad-en-el-trabajo' },
+                { label: 'TDAH en adultos', href: '/blog/tdah-en-adultos' },
+                { label: 'Terapia de pareja', href: '/blog/terapia-de-pareja-cuando-buscar-ayuda' },
+                { label: 'Todos los artículos', href: '/blog' },
+              ].map(item => (
+                <li key={item.label}>
+                  <Link href={item.href} className="text-violet-200 hover:text-white text-sm transition-colors">
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -91,12 +96,18 @@ export default function Footer() {
 
           {/* Contacto */}
           <div>
-            <h3 className="font-semibold text-sm uppercase tracking-wider text-violet-300 mb-4">Contacto</h3>
+            <h3 className="font-semibold text-sm uppercase tracking-wider text-violet-300 mb-4">Empresa</h3>
             <ul className="space-y-2.5">
-              {['Contacto', 'Soporte', 'Reportar error', 'Privacidad', 'Términos de uso'].map(item => (
-                <li key={item}>
-                  <Link href="#" className="text-violet-200 hover:text-white text-sm transition-colors">
-                    {item}
+              {[
+                { label: 'Sobre nosotros', href: '#' },
+                { label: 'Contacto', href: '#' },
+                { label: 'Reportar error', href: '#' },
+                { label: 'Privacidad', href: '#' },
+                { label: 'Términos de uso', href: '#' },
+              ].map(item => (
+                <li key={item.label}>
+                  <Link href={item.href} className="text-violet-200 hover:text-white text-sm transition-colors">
+                    {item.label}
                   </Link>
                 </li>
               ))}

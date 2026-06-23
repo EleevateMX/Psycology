@@ -1,6 +1,27 @@
-import { Search } from 'lucide-react';
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { Search } from 'lucide-react'
+
+const POPULAR = [
+  { label: 'Ansiedad', query: 'Ansiedad' },
+  { label: 'Depresión', query: 'Depresión' },
+  { label: 'Terapia de pareja', query: 'Pareja' },
+  { label: 'Psicología infantil', query: 'Infantil' },
+]
 
 export default function HeroSection() {
+  const [specialty, setSpecialty] = useState('')
+  const router = useRouter()
+
+  function handleSearch() {
+    const params = new URLSearchParams()
+    if (specialty) params.set('specialty', specialty)
+    router.push(`/psicologos${params.size ? '?' + params.toString() : ''}`)
+  }
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-violet-50 via-white to-white pt-16 pb-20">
       {/* Decorative blobs */}
@@ -30,24 +51,29 @@ export default function HeroSection() {
 
           {/* Search bar */}
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-3 flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto mb-4">
-            <select className="flex-1 px-4 py-3 text-gray-600 bg-gray-50 rounded-xl border-0 outline-none text-sm font-medium appearance-none cursor-pointer">
+            <select
+              value={specialty}
+              onChange={e => setSpecialty(e.target.value)}
+              className="flex-1 px-4 py-3 text-gray-600 bg-gray-50 rounded-xl border-0 outline-none text-sm font-medium appearance-none cursor-pointer"
+            >
               <option value="">Especialidad...</option>
-              <option>Ansiedad y Estrés</option>
+              <option>Ansiedad</option>
               <option>Depresión</option>
-              <option>Terapia de Pareja</option>
-              <option>Psicología Infantil</option>
+              <option>Pareja</option>
+              <option>Infantil</option>
               <option>TDAH</option>
-              <option>Trauma y PTSD</option>
-              <option>Duelo y Pérdida</option>
-              <option>Trastornos Alimenticios</option>
+              <option>Trauma</option>
+              <option>Duelo</option>
+              <option>Alimentación</option>
             </select>
             <select className="flex-1 px-4 py-3 text-gray-600 bg-gray-50 rounded-xl border-0 outline-none text-sm font-medium appearance-none cursor-pointer">
               <option>Mérida, Yucatán</option>
               <option>Online (todo México)</option>
-              <option>Ciudad de México</option>
-              <option>Monterrey</option>
             </select>
-            <button className="flex items-center justify-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors whitespace-nowrap">
+            <button
+              onClick={handleSearch}
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors whitespace-nowrap"
+            >
               <Search size={18} />
               Buscar
             </button>
@@ -62,11 +88,14 @@ export default function HeroSection() {
           {/* Popular searches */}
           <p className="text-sm text-gray-400 mb-10">
             <span className="font-medium text-gray-500">Búsquedas populares: </span>
-            {['Ansiedad', 'Depresión', 'Terapia de pareja', 'Psicología infantil'].map((term, i, arr) => (
-              <span key={term}>
-                <a href="#" className="text-violet-700 hover:text-violet-800 hover:underline transition-colors">
-                  {term}
-                </a>
+            {POPULAR.map((term, i, arr) => (
+              <span key={term.query}>
+                <Link
+                  href={`/psicologos?specialty=${encodeURIComponent(term.query)}`}
+                  className="text-violet-700 hover:text-violet-800 hover:underline transition-colors"
+                >
+                  {term.label}
+                </Link>
                 {i < arr.length - 1 && <span className="mx-1.5 text-gray-300">·</span>}
               </span>
             ))}
@@ -90,5 +119,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

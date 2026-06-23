@@ -1,15 +1,22 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import PsychologistCard from '@/components/PsychologistCard'
 import { psychologists } from '@/lib/data'
 import { ChevronDown } from 'lucide-react'
 
 const SPECIALTIES = ['Todos', 'Ansiedad', 'Depresión', 'Pareja', 'Infantil', 'TDAH', 'Trauma', 'Duelo', 'Alimentación', 'TCC']
 
-export default function PsicologosPage() {
-  const [selectedSpecialty, setSelectedSpecialty] = useState('Todos')
-  const [onlineOnly, setOnlineOnly] = useState(false)
+function PsicologosContent() {
+  const searchParams = useSearchParams()
+
+  const [selectedSpecialty, setSelectedSpecialty] = useState(() => {
+    const sp = searchParams.get('specialty') ?? ''
+    const match = SPECIALTIES.find(s => s.toLowerCase() === sp.toLowerCase() || sp.toLowerCase().includes(s.toLowerCase()))
+    return match ?? 'Todos'
+  })
+  const [onlineOnly, setOnlineOnly] = useState(() => searchParams.get('online') === '1')
   const [availableToday, setAvailableToday] = useState(false)
   const [highRating, setHighRating] = useState(false)
 
@@ -78,6 +85,9 @@ export default function PsicologosPage() {
             <div className="flex items-center justify-between mb-4">
               <p className="text-sm text-gray-600">
                 <span className="font-bold text-gray-900">{filtered.length}</span> psicólogos en Mérida
+                {selectedSpecialty !== 'Todos' && (
+                  <span className="ml-1 text-violet-700">· {selectedSpecialty}</span>
+                )}
               </p>
               <button className="flex items-center gap-1 text-sm text-gray-700 border border-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-50">
                 Más relevantes <ChevronDown size={14} />
@@ -88,7 +98,10 @@ export default function PsicologosPage() {
               <div className="text-center py-16 text-gray-500">
                 <div className="text-4xl mb-4">🔍</div>
                 <p className="font-medium">No se encontraron psicólogos con estos filtros</p>
-                <button onClick={() => { setSelectedSpecialty('Todos'); setOnlineOnly(false); setAvailableToday(false); setHighRating(false) }} className="mt-4 text-sm text-violet-600 hover:text-violet-700 underline">
+                <button
+                  onClick={() => { setSelectedSpecialty('Todos'); setOnlineOnly(false); setAvailableToday(false); setHighRating(false) }}
+                  className="mt-4 text-sm text-violet-600 hover:text-violet-700 underline"
+                >
                   Limpiar filtros
                 </button>
               </div>
@@ -130,5 +143,17 @@ export default function PsicologosPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function PsicologosPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-violet-700 border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <PsicologosContent />
+    </Suspense>
   )
 }

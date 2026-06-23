@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { MapPin, Video, Building2, BadgeCheck, Shield, Phone, Share2, Clock, GraduationCap, Star } from 'lucide-react';
 import { StarRating } from '@/components/StarRating';
 import { ReviewCard } from '@/components/ReviewCard';
@@ -229,9 +230,12 @@ export default async function PsychologistProfilePage({ params }: Props) {
               </div>
 
               {/* CTA button */}
-              <button className="w-full py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-colors text-base">
+              <Link
+                href={`/psicologos/${p.id}/agendar`}
+                className="block w-full py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-colors text-base text-center"
+              >
                 Agendar cita
-              </button>
+              </Link>
 
               {/* Contact info */}
               <div className="space-y-3 pt-2 border-t border-gray-100">
