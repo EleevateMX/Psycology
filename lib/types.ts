@@ -13,6 +13,11 @@ export interface Education {
   year: string;
 }
 
+export interface AvailabilityDay {
+  label: string;
+  slots: string[];
+}
+
 export interface Psychologist {
   id: string;
   name: string;
@@ -21,17 +26,21 @@ export interface Psychologist {
   initials: string;
   avatarColor: string;
   primarySpecialty: string;
+  specialty: string;
   specialties: string[];
   rating: number;
   reviewCount: number;
   neighborhood: string;
+  location: string;
   address: string;
   education: Education[];
   cedula: string;
   yearsExperience: number;
   pricePerSession: number;
+  price: number;
   offersOnline: boolean;
   offersInPerson: boolean;
+  online: boolean;
   bio: string;
   languages: string[];
   nextAvailable: string;
@@ -39,4 +48,5 @@ export interface Psychologist {
   tags: string[];
   phone: string;
   reviews: Review[];
+  availability: AvailabilityDay[];
 }

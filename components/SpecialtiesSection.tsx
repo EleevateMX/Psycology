@@ -13,10 +13,10 @@ const specialties = [
 
 export default function SpecialtiesSection() {
   return (
-    <section className="py-20 bg-teal-50/50">
+    <section className="py-20 bg-violet-50/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <span className="text-teal-600 font-semibold text-sm uppercase tracking-wider">Especialidades</span>
+          <span className="text-violet-700 font-semibold text-sm uppercase tracking-wider">Especialidades</span>
           <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold text-gray-900">
             Encuentra especialistas en lo que necesitas
           </h2>
@@ -30,10 +30,10 @@ export default function SpecialtiesSection() {
             <Link
               key={slug}
               href={`/psicologos?especialidad=${slug}`}
-              className="group bg-white rounded-2xl p-5 text-center hover:shadow-md hover:border-teal-300 border border-gray-100 transition-all duration-200"
+              className="group bg-white rounded-2xl p-5 text-center hover:shadow-md hover:border-violet-300 border border-gray-100 transition-all duration-200"
             >
               <div className="text-4xl mb-3">{emoji}</div>
-              <h3 className="font-semibold text-gray-800 text-sm group-hover:text-teal-600 transition-colors">
+              <h3 className="font-semibold text-gray-800 text-sm group-hover:text-violet-700 transition-colors">
                 {name}
               </h3>
             </Link>

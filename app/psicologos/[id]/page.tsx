@@ -27,7 +27,7 @@ export default async function PsychologistProfilePage({ params }: Props) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero header */}
-      <div className="bg-gradient-to-br from-teal-700 to-teal-800 text-white">
+      <div className="bg-gradient-to-br from-violet-700 to-violet-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
             {/* Avatar */}
@@ -44,34 +44,34 @@ export default async function PsychologistProfilePage({ params }: Props) {
                 </h1>
                 {p.verified && (
                   <div className="flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded-full">
-                    <BadgeCheck size={14} className="text-teal-300" />
-                    <span className="text-xs text-teal-100 font-medium">Verificado</span>
+                    <BadgeCheck size={14} className="text-violet-300" />
+                    <span className="text-xs text-violet-100 font-medium">Verificado</span>
                   </div>
                 )}
               </div>
-              <p className="text-teal-200 font-medium mb-3">{p.primarySpecialty}</p>
+              <p className="text-violet-200 font-medium mb-3">{p.primarySpecialty}</p>
               <div className="flex items-center gap-3 flex-wrap">
                 <StarRating rating={p.rating} size="md" showNumber count={p.reviewCount} />
               </div>
 
               {/* Quick stats */}
               <div className="flex flex-wrap gap-4 mt-4">
-                <div className="flex items-center gap-1.5 text-teal-100 text-sm">
-                  <Clock size={15} className="text-teal-300" />
+                <div className="flex items-center gap-1.5 text-violet-100 text-sm">
+                  <Clock size={15} className="text-violet-300" />
                   {p.yearsExperience} años de experiencia
                 </div>
-                <div className="flex items-center gap-1.5 text-teal-100 text-sm">
-                  <MapPin size={15} className="text-teal-300" />
+                <div className="flex items-center gap-1.5 text-violet-100 text-sm">
+                  <MapPin size={15} className="text-violet-300" />
                   {p.neighborhood}, Mérida
                 </div>
                 {p.offersOnline && (
-                  <span className="flex items-center gap-1 text-teal-100 text-sm">
-                    <Video size={15} className="text-teal-300" /> Online
+                  <span className="flex items-center gap-1 text-violet-100 text-sm">
+                    <Video size={15} className="text-violet-300" /> Online
                   </span>
                 )}
                 {p.offersInPerson && (
-                  <span className="flex items-center gap-1 text-teal-100 text-sm">
-                    <Building2 size={15} className="text-teal-300" /> Presencial
+                  <span className="flex items-center gap-1 text-violet-100 text-sm">
+                    <Building2 size={15} className="text-violet-300" /> Presencial
                   </span>
                 )}
               </div>
@@ -107,22 +107,22 @@ export default async function PsychologistProfilePage({ params }: Props) {
             {/* Formación */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <GraduationCap size={20} className="text-teal-600" />
+                <GraduationCap size={20} className="text-violet-700" />
                 Formación académica
               </h2>
               <div className="space-y-4">
                 {p.education.map((edu, i) => (
                   <div key={i} className="flex gap-4">
                     <div className="flex flex-col items-center">
-                      <div className="w-3 h-3 rounded-full bg-teal-600 mt-1 flex-shrink-0" />
+                      <div className="w-3 h-3 rounded-full bg-violet-700 mt-1 flex-shrink-0" />
                       {i < p.education.length - 1 && (
-                        <div className="w-0.5 flex-1 bg-teal-100 mt-1" />
+                        <div className="w-0.5 flex-1 bg-violet-100 mt-1" />
                       )}
                     </div>
                     <div className="pb-4 flex-1">
                       <div className="font-semibold text-gray-900 text-sm">{edu.degree}</div>
                       <div className="text-gray-500 text-xs mt-0.5">{edu.institution}</div>
-                      <div className="text-teal-600 text-xs font-medium mt-0.5">{edu.year}</div>
+                      <div className="text-violet-700 text-xs font-medium mt-0.5">{edu.year}</div>
                     </div>
                   </div>
                 ))}
@@ -132,17 +132,17 @@ export default async function PsychologistProfilePage({ params }: Props) {
             {/* Cédula profesional */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <Shield size={20} className="text-teal-600" />
+                <Shield size={20} className="text-violet-700" />
                 Cédula profesional
               </h2>
-              <div className="flex items-center gap-3 p-4 bg-teal-50 rounded-xl">
-                <div className="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center flex-shrink-0">
-                  <Shield size={18} className="text-teal-600" />
+              <div className="flex items-center gap-3 p-4 bg-violet-50 rounded-xl">
+                <div className="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center flex-shrink-0">
+                  <Shield size={18} className="text-violet-700" />
                 </div>
                 <div>
                   <div className="text-xs text-gray-500 font-medium">Número de cédula (SEP)</div>
                   <div className="font-bold text-gray-900 text-lg tracking-wide">{p.cedula}</div>
-                  <div className="text-xs text-teal-600 font-medium mt-0.5">Verificada en el sistema SEP</div>
+                  <div className="text-xs text-violet-700 font-medium mt-0.5">Verificada en el sistema SEP</div>
                 </div>
               </div>
             </div>
@@ -154,7 +154,7 @@ export default async function PsychologistProfilePage({ params }: Props) {
                 {p.specialties.map(s => (
                   <span
                     key={s}
-                    className="px-3 py-1.5 bg-teal-50 text-teal-700 rounded-full text-sm font-medium border border-teal-100"
+                    className="px-3 py-1.5 bg-violet-50 text-violet-700 rounded-full text-sm font-medium border border-violet-100"
                   >
                     {s}
                   </span>
@@ -256,7 +256,7 @@ export default async function PsychologistProfilePage({ params }: Props) {
               {/* Modality */}
               <div className="flex gap-2 pt-1 flex-wrap">
                 {p.offersOnline && (
-                  <span className="flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-600 text-xs font-medium rounded-full">
+                  <span className="flex items-center gap-1 px-3 py-1.5 bg-violet-50 text-violet-700 text-xs font-medium rounded-full border border-violet-200">
                     <Video size={12} /> Online
                   </span>
                 )}
