@@ -1,6 +1,7 @@
 'use client'
 
-import { Star, MapPin, CheckCircle, Video, Clock } from 'lucide-react'
+import { useState } from 'react'
+import { Star, MapPin, CheckCircle, Video, Clock, Phone, X } from 'lucide-react'
 import type { Psychologist } from '@/lib/types'
 import Link from 'next/link'
 
@@ -21,6 +22,7 @@ function getInitials(name: string) {
 
 export default function PsychologistCard({ psychologist }: Props) {
   const { name, specialty, rating, reviewCount, location, price, verified, online, availability } = psychologist
+  const [showContact, setShowContact] = useState(false)
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
@@ -94,19 +96,42 @@ export default function PsychologistCard({ psychologist }: Props) {
           </div>
 
           {/* CTA */}
-          <div className="mt-4 flex items-center gap-2">
+          <div className="mt-4 flex items-center gap-2 flex-wrap">
             <Link
               href={`/psicologos/${psychologist.id}`}
               className="text-sm bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
             >
               Ver perfil
             </Link>
-            <Link
-              href={`/psicologos/${psychologist.id}`}
-              className="text-sm border border-violet-200 text-violet-700 hover:bg-violet-50 px-4 py-2 rounded-lg font-medium transition-colors"
-            >
-              Contactar
-            </Link>
+            <div className="relative">
+              <button
+                onClick={() => setShowContact(!showContact)}
+                className="text-sm border border-violet-200 text-violet-700 hover:bg-violet-50 px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-1.5"
+              >
+                <Phone size={13} />
+                Contactar
+              </button>
+              {showContact && (
+                <div className="absolute bottom-full left-0 mb-2 w-64 bg-white rounded-xl border border-gray-200 shadow-xl z-20 p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Datos de contacto</span>
+                    <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600">
+                      <X size={14} />
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Phone size={14} className="text-violet-600 shrink-0" />
+                    <span className="text-sm font-semibold text-gray-800">{psychologist.phone}</span>
+                  </div>
+                  <Link
+                    href={`/psicologos/${psychologist.id}/agendar`}
+                    className="block w-full text-center text-xs bg-violet-700 text-white px-3 py-2 rounded-lg font-medium hover:bg-violet-800 transition-colors mt-3"
+                  >
+                    Agendar cita online →
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

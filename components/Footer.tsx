@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { Instagram, Facebook, Twitter, Linkedin, Heart } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -120,7 +120,7 @@ export default function Footer() {
       <div className="border-t border-violet-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-violet-300 text-sm">© 2025 Psique MX. Todos los derechos reservados.</p>
-          <p className="text-violet-300 text-sm">Hecho con ❤️ en Mérida, Yucatán</p>
+          <p className="text-violet-300 text-sm flex items-center gap-1">Hecho con <Heart size={13} className="text-red-400 fill-red-400" /> en Mérida, Yucatán</p>
         </div>
       </div>
     </footer>

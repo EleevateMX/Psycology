@@ -1,15 +1,25 @@
-import Link from 'next/link';
+import Link from 'next/link'
+import { Wind, CloudRain, Heart, Baby, Brain, Users, HeartCrack, Zap } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
-const specialties = [
-  { emoji: '😰', name: 'Ansiedad y Estrés', slug: 'ansiedad' },
-  { emoji: '😔', name: 'Depresión', slug: 'depresion' },
-  { emoji: '💑', name: 'Terapia de Pareja', slug: 'pareja' },
-  { emoji: '👶', name: 'Psicología Infantil', slug: 'infantil' },
-  { emoji: '🧠', name: 'TCC', slug: 'tcc' },
-  { emoji: '👨‍👩‍👧', name: 'Terapia Familiar', slug: 'familiar' },
-  { emoji: '💔', name: 'Duelo y Pérdida', slug: 'duelo' },
-  { emoji: '⚡', name: 'TDAH', slug: 'tdah' },
-];
+interface Specialty {
+  icon: LucideIcon
+  iconBg: string
+  iconColor: string
+  name: string
+  slug: string
+}
+
+const specialties: Specialty[] = [
+  { icon: Wind, iconBg: 'bg-orange-50', iconColor: 'text-orange-500', name: 'Ansiedad y Estrés', slug: 'Ansiedad' },
+  { icon: CloudRain, iconBg: 'bg-blue-50', iconColor: 'text-blue-500', name: 'Depresión', slug: 'Depresión' },
+  { icon: Heart, iconBg: 'bg-pink-50', iconColor: 'text-pink-500', name: 'Terapia de Pareja', slug: 'Pareja' },
+  { icon: Baby, iconBg: 'bg-yellow-50', iconColor: 'text-yellow-600', name: 'Psicología Infantil', slug: 'Infantil' },
+  { icon: Brain, iconBg: 'bg-violet-50', iconColor: 'text-violet-600', name: 'TCC', slug: 'TCC' },
+  { icon: Users, iconBg: 'bg-green-50', iconColor: 'text-green-600', name: 'Terapia Familiar', slug: 'Familia' },
+  { icon: HeartCrack, iconBg: 'bg-gray-50', iconColor: 'text-gray-500', name: 'Duelo y Pérdida', slug: 'Duelo' },
+  { icon: Zap, iconBg: 'bg-indigo-50', iconColor: 'text-indigo-600', name: 'TDAH', slug: 'TDAH' },
+]
 
 export default function SpecialtiesSection() {
   return (
@@ -26,13 +36,15 @@ export default function SpecialtiesSection() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {specialties.map(({ emoji, name, slug }) => (
+          {specialties.map(({ icon: Icon, iconBg, iconColor, name, slug }) => (
             <Link
               key={slug}
-              href={`/psicologos?especialidad=${slug}`}
+              href={`/psicologos?specialty=${encodeURIComponent(slug)}`}
               className="group bg-white rounded-2xl p-5 text-center hover:shadow-md hover:border-violet-300 border border-gray-100 transition-all duration-200"
             >
-              <div className="text-4xl mb-3">{emoji}</div>
+              <div className={`w-14 h-14 ${iconBg} rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-105 transition-transform`}>
+                <Icon size={26} className={iconColor} />
+              </div>
               <h3 className="font-semibold text-gray-800 text-sm group-hover:text-violet-700 transition-colors">
                 {name}
               </h3>
@@ -41,5 +53,5 @@ export default function SpecialtiesSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

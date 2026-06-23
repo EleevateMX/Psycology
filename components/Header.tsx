@@ -3,7 +3,16 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Menu, X, Search, ChevronDown } from 'lucide-react'
+import { Menu, X, Search, ChevronDown, Video, CalendarDays, ShieldCheck, FileText, Briefcase } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+
+const SUB_NAV: { icon: LucideIcon; label: string; href: string }[] = [
+  { icon: Video, label: 'Consulta en línea', href: '/psicologos?online=1' },
+  { icon: CalendarDays, label: 'Disponible hoy', href: '/psicologos' },
+  { icon: ShieldCheck, label: 'Certificados', href: '/psicologos' },
+  { icon: FileText, label: 'Blog', href: '/blog' },
+  { icon: Briefcase, label: 'Únete', href: '/unete' },
+]
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -36,7 +45,7 @@ export default function Header() {
             <span className="text-lg font-bold hidden sm:block">Psique</span>
           </Link>
 
-          {/* Search bar (center) */}
+          {/* Search bar */}
           <div className="flex-1 hidden md:flex items-center bg-white rounded-lg overflow-hidden shadow-sm max-w-2xl mx-auto">
             <select
               value={specialty}
@@ -105,20 +114,14 @@ export default function Header() {
       {/* Sub-nav */}
       <div className="bg-white border-b border-gray-200 hidden md:block">
         <div className="max-w-7xl mx-auto px-4 flex items-center gap-1 overflow-x-auto">
-          {[
-            { icon: '🎥', label: 'Consulta en línea', href: '/psicologos?online=1' },
-            { icon: '📅', label: 'Disponible hoy', href: '/psicologos' },
-            { icon: '⚕️', label: 'Certificados', href: '/psicologos' },
-            { icon: '📝', label: 'Blog', href: '/blog' },
-            { icon: '💼', label: 'Únete', href: '/unete' },
-          ].map((item) => (
+          {SUB_NAV.map(({ icon: Icon, label, href }) => (
             <Link
-              key={item.label}
-              href={item.href}
+              key={label}
+              href={href}
               className="flex items-center gap-1.5 px-4 py-3 text-sm text-gray-600 hover:text-violet-700 hover:bg-violet-50 whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-violet-700"
             >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
+              <Icon size={15} />
+              {label}
             </Link>
           ))}
         </div>
@@ -147,23 +150,21 @@ export default function Header() {
                 <Search size={18} />
               </button>
             </div>
-            {[
-              { label: '🎥 Consulta en línea', href: '/psicologos?online=1' },
-              { label: '📅 Disponible hoy', href: '/psicologos' },
-              { label: '⚕️ Psicólogos certificados', href: '/psicologos' },
-              { label: '📝 Blog de salud mental', href: '/blog' },
-            ].map(item => (
+            {SUB_NAV.map(({ icon: Icon, label, href }) => (
               <Link
-                key={item.label}
-                href={item.href}
+                key={label}
+                href={href}
                 onClick={() => setMobileOpen(false)}
-                className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-violet-50 rounded-lg text-sm"
+                className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 hover:bg-violet-50 rounded-lg text-sm"
               >
-                {item.label}
+                <Icon size={16} className="text-violet-600" />
+                {label}
               </Link>
             ))}
             <hr className="my-2" />
-            <button className="w-full text-left px-4 py-3 text-gray-700 hover:bg-violet-50 rounded-lg text-sm">Iniciar sesión</button>
+            <button className="w-full text-left px-4 py-3 text-gray-700 hover:bg-violet-50 rounded-lg text-sm">
+              Iniciar sesión
+            </button>
             <Link
               href="/unete"
               onClick={() => setMobileOpen(false)}

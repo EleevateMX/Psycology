@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { MapPin, Video, Building2, BadgeCheck, Shield, Phone, Share2, Clock, GraduationCap, Star } from 'lucide-react';
+import { MapPin, Video, Building2, BadgeCheck, Shield, Phone, Clock, GraduationCap, Star } from 'lucide-react';
 import { StarRating } from '@/components/StarRating';
 import { ReviewCard } from '@/components/ReviewCard';
+import { ShareButton } from '@/components/ShareButton';
 import { psychologists } from '@/lib/data';
 
 interface Props {
@@ -272,10 +273,7 @@ export default async function PsychologistProfilePage({ params }: Props) {
               </div>
 
               {/* Share */}
-              <button className="w-full flex items-center justify-center gap-2 py-2.5 border border-gray-200 text-gray-600 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors">
-                <Share2 size={15} />
-                Compartir perfil
-              </button>
+              <ShareButton title={`${p.prefix} ${p.name} — Psique`} />
             </div>
           </div>
         </div>

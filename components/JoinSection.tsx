@@ -1,4 +1,5 @@
-import { CheckCircle } from 'lucide-react';
+import Link from 'next/link'
+import { CheckCircle, Brain } from 'lucide-react'
 
 const benefits = [
   'Aumenta tu visibilidad online',
@@ -6,7 +7,7 @@ const benefits = [
   'Recibe reseñas verificadas',
   'Perfil profesional gratuito',
   'Llega a miles de pacientes potenciales',
-];
+]
 
 export default function JoinSection() {
   return (
@@ -40,23 +41,29 @@ export default function JoinSection() {
           <div className="flex-shrink-0 w-full lg:w-auto">
             <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm mx-auto text-center">
               <div className="w-16 h-16 rounded-2xl bg-violet-50 flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">🧠</span>
+                <Brain size={30} className="text-violet-600" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Crea tu perfil gratis</h3>
               <p className="text-gray-500 text-sm mb-6 leading-relaxed">
                 En menos de 10 minutos tendrás tu perfil profesional listo para recibir pacientes.
               </p>
-              <button className="w-full px-6 py-3.5 bg-violet-700 text-white font-semibold rounded-xl hover:bg-violet-800 transition-colors text-sm mb-3">
+              <Link
+                href="/unete"
+                className="block w-full px-6 py-3.5 bg-violet-700 text-white font-semibold rounded-xl hover:bg-violet-800 transition-colors text-sm mb-3 text-center"
+              >
                 Crear mi perfil gratis
-              </button>
-              <button className="w-full px-6 py-3 border border-gray-200 text-gray-600 font-medium rounded-xl hover:bg-gray-50 transition-colors text-sm">
+              </Link>
+              <Link
+                href="/#como-funciona"
+                className="block w-full px-6 py-3 border border-gray-200 text-gray-600 font-medium rounded-xl hover:bg-gray-50 transition-colors text-sm text-center"
+              >
                 Conocer más
-              </button>
+              </Link>
               <p className="text-xs text-gray-400 mt-4">Sin tarjeta de crédito · Siempre gratis</p>
             </div>
           </div>
         </div>
       </div>
     </section>
-  );
+  )
 }

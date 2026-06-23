@@ -8,7 +8,7 @@ export interface BlogPost {
   category: string
   readTime: number
   publishedAt: string
-  coverEmoji: string
+  coverIcon: string
   tags: string[]
 }
 
@@ -61,7 +61,7 @@ Si reconociste alguna de estas señales, el siguiente paso es buscar a un psicó
     category: 'Salud Mental',
     readTime: 5,
     publishedAt: '2025-06-01',
-    coverEmoji: '🧠',
+    coverIcon: 'brain',
     tags: ['Psicología', 'Salud mental', 'Terapia', 'Bienestar'],
   },
   {
@@ -118,7 +118,7 @@ Los psicólogos especializados en ansiedad y estrés laboral tienen herramientas
     category: 'Ansiedad',
     readTime: 6,
     publishedAt: '2025-05-20',
-    coverEmoji: '💼',
+    coverIcon: 'briefcase',
     tags: ['Ansiedad', 'Trabajo', 'Burnout', 'Estrés'],
   },
   {
@@ -179,7 +179,7 @@ Si te reconociste en este artículo, el primer paso es una evaluación profesion
     category: 'TDAH',
     readTime: 7,
     publishedAt: '2025-05-10',
-    coverEmoji: '⚡',
+    coverIcon: 'zap',
     tags: ['TDAH', 'Adultos', 'Diagnóstico', 'Salud mental'],
   },
   {
@@ -232,7 +232,7 @@ Buscar ayuda no es señal de fracaso; es señal de compromiso con la relación.`
     category: 'Pareja',
     readTime: 6,
     publishedAt: '2025-04-28',
-    coverEmoji: '💑',
+    coverIcon: 'heart',
     tags: ['Terapia de pareja', 'Relaciones', 'Comunicación', 'Amor'],
   },
   {
@@ -289,7 +289,7 @@ En Mérida, hay psicólogos especializados en tanatología y duelo que ofrecen t
     category: 'Duelo',
     readTime: 7,
     publishedAt: '2025-04-15',
-    coverEmoji: '🌿',
+    coverIcon: 'leaf',
     tags: ['Duelo', 'Pérdida', 'Tanatología', 'Salud mental'],
   },
   {
@@ -330,7 +330,7 @@ En Psique encontrarás psicólogos certificados con cédulas profesionales verif
     category: 'Información',
     readTime: 5,
     publishedAt: '2025-04-01',
-    coverEmoji: '🔬',
+    coverIcon: 'microscope',
     tags: ['Psicólogo', 'Psiquiatra', 'Salud mental', 'Guía'],
   },
 ]

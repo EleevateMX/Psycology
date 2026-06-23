@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, CheckCircle, Clock, Video, Building2, CalendarDays } from 'lucide-react'
+import { ArrowLeft, CheckCircle, Clock, Video, Building2, CalendarDays, Download } from 'lucide-react'
 import { psychologists } from '@/lib/data'
 
 interface PatientInfo {
@@ -31,6 +31,35 @@ export default function AgendarPage() {
     modality: 'presencial',
   })
   const [confirmId] = useState(() => CONFIRMATION_ID())
+
+  function downloadICS() {
+    if (!selectedDayData || !selectedSlot || !p) return
+    const now = new Date()
+    const stamp = now.toISOString().replace(/[-:.]/g, '').slice(0, 15) + 'Z'
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Psique MX//ES',
+      'BEGIN:VEVENT',
+      `DTSTART:${stamp}`,
+      `DTEND:${stamp}`,
+      `SUMMARY:Cita con ${p.prefix} ${p.name} — Psique`,
+      `DESCRIPTION:Confirmación: ${confirmId}\\nModalidad: ${patient.modality === 'online' ? 'En línea' : 'Presencial'}`,
+      `LOCATION:${patient.modality === 'online' ? 'En línea (videollamada)' : p.address}`,
+      `UID:${confirmId}@psique.mx`,
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].join('\r\n')
+    const blob = new Blob([icsContent], { type: 'text/calendar' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `cita-psique-${confirmId}.ics`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
 
   if (!p) {
     return (
@@ -167,6 +196,13 @@ export default function AgendarPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <button
+                    onClick={downloadICS}
+                    className="flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-colors text-sm"
+                  >
+                    <Download size={15} />
+                    Agregar al calendario
+                  </button>
                   <Link
                     href={`/psicologos/${p.id}`}
                     className="px-6 py-3 border border-violet-200 text-violet-700 font-medium rounded-xl hover:bg-violet-50 transition-colors text-sm"

@@ -3,13 +3,19 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Search } from 'lucide-react'
+import { Search, Smartphone, CheckCircle } from 'lucide-react'
 
 const POPULAR = [
   { label: 'Ansiedad', query: 'Ansiedad' },
   { label: 'Depresión', query: 'Depresión' },
   { label: 'Terapia de pareja', query: 'Pareja' },
   { label: 'Psicología infantil', query: 'Infantil' },
+]
+
+const TRUST = [
+  { text: 'Perfiles verificados' },
+  { text: 'Cédulas profesionales' },
+  { text: 'Reseñas reales' },
 ]
 
 export default function HeroSection() {
@@ -81,7 +87,7 @@ export default function HeroSection() {
 
           {/* PWA install banner */}
           <div className="mb-6 inline-flex items-center gap-2 text-xs text-violet-600 bg-violet-50 border border-violet-200 px-3 py-1.5 rounded-full">
-            <span>📱</span>
+            <Smartphone size={13} />
             <span>Disponible como app — instala Psique en tu dispositivo</span>
           </div>
 
@@ -103,15 +109,9 @@ export default function HeroSection() {
 
           {/* Trust badges */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
-            {[
-              { icon: '✓', text: 'Perfiles verificados' },
-              { icon: '✓', text: 'Cédulas profesionales' },
-              { icon: '✓', text: 'Reseñas reales' },
-            ].map(({ icon, text }) => (
+            {TRUST.map(({ text }) => (
               <div key={text} className="flex items-center gap-2 text-sm font-medium text-gray-600">
-                <span className="w-5 h-5 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold">
-                  {icon}
-                </span>
+                <CheckCircle size={16} className="text-violet-600 shrink-0" />
                 {text}
               </div>
             ))}

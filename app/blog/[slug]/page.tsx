@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { blogPosts } from '@/lib/blog-data'
+import { Brain, Briefcase, Zap, Heart, Leaf, Microscope } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 
@@ -22,6 +24,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
+const COVER_ICONS: Record<string, LucideIcon> = {
+  brain: Brain,
+  briefcase: Briefcase,
+  zap: Zap,
+  heart: Heart,
+  leaf: Leaf,
+  microscope: Microscope,
+}
+
 const CATEGORY_COLORS: Record<string, string> = {
   'Salud Mental': 'bg-violet-100 text-violet-700',
   'Ansiedad': 'bg-orange-100 text-orange-700',
@@ -29,6 +40,24 @@ const CATEGORY_COLORS: Record<string, string> = {
   'Pareja': 'bg-pink-100 text-pink-700',
   'Duelo': 'bg-green-100 text-green-700',
   'Información': 'bg-gray-100 text-gray-700',
+}
+
+const CATEGORY_BG: Record<string, string> = {
+  'Salud Mental': 'bg-gradient-to-br from-violet-50 to-violet-100',
+  'Ansiedad': 'bg-gradient-to-br from-orange-50 to-orange-100',
+  'TDAH': 'bg-gradient-to-br from-blue-50 to-blue-100',
+  'Pareja': 'bg-gradient-to-br from-pink-50 to-pink-100',
+  'Duelo': 'bg-gradient-to-br from-green-50 to-green-100',
+  'Información': 'bg-gradient-to-br from-gray-50 to-gray-100',
+}
+
+const CATEGORY_ICON_COLOR: Record<string, string> = {
+  'Salud Mental': 'text-violet-500',
+  'Ansiedad': 'text-orange-500',
+  'TDAH': 'text-blue-500',
+  'Pareja': 'text-pink-500',
+  'Duelo': 'text-green-600',
+  'Información': 'text-gray-400',
 }
 
 function formatDate(dateStr: string) {
@@ -53,7 +82,7 @@ function renderContent(content: string): ReactNode[] {
 
     if (trimmed.startsWith('## ')) {
       return (
-        <h2 key={i} className="text-2xl font-bold text-gray-900 mt-10 mb-4">
+        <h2 key={i} className="text-2xl font-bold text-gray-900 mt-10 mb-4 pb-2 border-b border-gray-100">
           {renderInline(trimmed.slice(3))}
         </h2>
       )
@@ -75,16 +104,6 @@ function renderContent(content: string): ReactNode[] {
         </ul>
       )
     }
-    if (trimmed.match(/^\*\*\d+\./)) {
-      const items = trimmed.split('\n').filter(Boolean)
-      return (
-        <ol key={i} className="list-decimal list-outside ml-5 space-y-2 my-4 text-gray-700">
-          {items.map((item, j) => (
-            <li key={j} className="leading-relaxed">{renderInline(item.replace(/^\*\*\d+\.\*\*\s*/, ''))}</li>
-          ))}
-        </ol>
-      )
-    }
     return (
       <p key={i} className="text-gray-700 leading-relaxed my-4">
         {renderInline(trimmed)}
@@ -100,17 +119,23 @@ export default async function BlogPostPage({ params }: Props) {
 
   const related = blogPosts.filter((p) => p.slug !== slug).slice(0, 3)
 
+  const CoverIcon = COVER_ICONS[post.coverIcon] ?? Brain
+  const coverBg = CATEGORY_BG[post.category] ?? 'bg-gradient-to-br from-gray-50 to-gray-100'
+  const coverIconColor = CATEGORY_ICON_COLOR[post.category] ?? 'text-gray-500'
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <Link href="/blog" className="inline-flex items-center gap-1.5 text-sm text-violet-600 hover:text-violet-700 mb-6">
+          <Link href="/blog" className="inline-flex items-center gap-1.5 text-sm text-violet-600 hover:text-violet-700 mb-6 font-medium">
             ← Blog
           </Link>
 
-          <div className="flex items-start gap-4">
-            <span className="text-5xl sm:text-6xl shrink-0 mt-1">{post.coverEmoji}</span>
+          <div className="flex items-start gap-5">
+            <div className={`w-20 h-20 sm:w-24 sm:h-24 ${coverBg} rounded-2xl flex items-center justify-center shrink-0`}>
+              <CoverIcon size={40} className={coverIconColor} strokeWidth={1.5} />
+            </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-3">
                 <span className={`text-xs font-semibold px-3 py-1 rounded-full ${CATEGORY_COLORS[post.category] ?? 'bg-gray-100 text-gray-700'}`}>
@@ -144,7 +169,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Article body */}
           <article className="flex-1 min-w-0 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8">
-            <div className="prose-container">
+            <div>
               {renderContent(post.content)}
             </div>
 
@@ -162,7 +187,9 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="w-full lg:w-72 shrink-0 space-y-6">
             {/* CTA */}
             <div className="bg-violet-700 rounded-2xl p-6 text-white">
-              <div className="text-3xl mb-3">🧠</div>
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3">
+                <Brain size={22} className="text-white" />
+              </div>
               <h3 className="font-bold text-lg mb-2">¿Necesitas apoyo?</h3>
               <p className="text-violet-200 text-sm mb-4 leading-relaxed">
                 Encuentra psicólogos verificados en Mérida. Citas presenciales y en línea.
@@ -179,14 +206,21 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
               <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide">Artículos relacionados</h3>
               <div className="space-y-4">
-                {related.map((r) => (
-                  <Link key={r.slug} href={`/blog/${r.slug}`} className="flex gap-3 group">
-                    <span className="text-2xl shrink-0">{r.coverEmoji}</span>
-                    <span className="text-sm text-gray-700 group-hover:text-violet-700 transition-colors leading-snug font-medium">
-                      {r.title}
-                    </span>
-                  </Link>
-                ))}
+                {related.map((r) => {
+                  const RelIcon = COVER_ICONS[r.coverIcon] ?? Brain
+                  const relBg = CATEGORY_BG[r.category] ?? 'bg-gradient-to-br from-gray-50 to-gray-100'
+                  const relColor = CATEGORY_ICON_COLOR[r.category] ?? 'text-gray-500'
+                  return (
+                    <Link key={r.slug} href={`/blog/${r.slug}`} className="flex gap-3 group items-start">
+                      <div className={`w-10 h-10 ${relBg} rounded-xl flex items-center justify-center shrink-0`}>
+                        <RelIcon size={18} className={relColor} />
+                      </div>
+                      <span className="text-sm text-gray-700 group-hover:text-violet-700 transition-colors leading-snug font-medium">
+                        {r.title}
+                      </span>
+                    </Link>
+                  )
+                })}
               </div>
             </div>
           </div>
