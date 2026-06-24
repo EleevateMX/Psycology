@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import LogoutButton from '@/components/LogoutButton';
 import {
   LayoutDashboard,
   User,
@@ -919,8 +920,8 @@ export default function DashboardPage() {
           })}
         </nav>
 
-        {/* Ver perfil público */}
-        <div className="px-4 py-5 border-t border-violet-800">
+        {/* Ver perfil público + Logout */}
+        <div className="px-4 py-5 border-t border-violet-800 space-y-2">
           <Link
             href="/psicologos/1"
             className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white text-sm font-medium rounded-xl transition-colors"
@@ -928,6 +929,7 @@ export default function DashboardPage() {
             Ver mi perfil público
             <ChevronRight size={14} />
           </Link>
+          <LogoutButton />
         </div>
       </aside>
 

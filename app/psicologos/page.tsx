@@ -90,7 +90,8 @@ function PsicologosContent() {
       })
       default: return arr
     }
-  }, [search, selectedSpecialty, onlineOnly, availableToday, highRating, verifiedOnly, priceRangeIdx, sortBy, priceMin, priceMax, priceActive])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, selectedSpecialty, onlineOnly, availableToday, highRating, verifiedOnly, sortBy, priceMin, priceMax, priceActive])
 
   function clearAll() {
     setSearch('')

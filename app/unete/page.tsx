@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { CheckCircle, ChevronRight, ChevronLeft, User, GraduationCap, MapPin, Clock } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 
 const SPECIALTIES = [
   'Ansiedad y Estrés', 'Depresión', 'Terapia de Pareja', 'Psicología Infantil',
@@ -21,6 +22,7 @@ interface FormData {
   inPerson: boolean; neighborhood: string; online: boolean
   price: string; languages: string
   days: string[]; shifts: string[]
+  password: string; confirmPassword: string
 }
 
 const INITIAL: FormData = {
@@ -30,6 +32,7 @@ const INITIAL: FormData = {
   inPerson: true, neighborhood: '', online: false,
   price: '', languages: 'Español',
   days: [], shifts: [],
+  password: '', confirmPassword: '',
 }
 
 const STEPS = [
@@ -43,9 +46,54 @@ export default function UnetePage() {
   const [step, setStep] = useState(0)
   const [data, setData] = useState<FormData>(INITIAL)
   const [done, setDone] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   function set<K extends keyof FormData>(key: K, val: FormData[K]) {
     setData((prev) => ({ ...prev, [key]: val }))
+  }
+
+  async function handleSubmit() {
+    if (data.password !== data.confirmPassword) {
+      alert('Las contraseñas no coinciden.')
+      return
+    }
+    setLoading(true)
+    const supabase = createClient()
+
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        data: {
+          nombre: data.name,
+          especialidad: data.primarySpecialty,
+        },
+      },
+    })
+
+    if (authError) {
+      alert('Error al crear cuenta: ' + authError.message)
+      setLoading(false)
+      return
+    }
+
+    if (authData.user) {
+      await supabase.from('psique_psychologist_profiles').insert({
+        user_id: authData.user.id,
+        nombre: data.name || '',
+        apellido: '',
+        email: data.email,
+        telefono: data.phone || '',
+        especialidad: data.primarySpecialty || '',
+        cedula: data.cedula || '',
+        ciudad: 'Mérida',
+        modalidad: [data.inPerson && 'Presencial', data.online && 'En línea'].filter(Boolean),
+      })
+    }
+
+    setLoading(false)
+    setDone(true)
   }
 
   function toggleArray(key: 'otherSpecialties' | 'days' | 'shifts', val: string) {
@@ -62,12 +110,12 @@ export default function UnetePage() {
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle size={40} className="text-green-600" />
           </div>
-          <h2 className="text-2xl font-extrabold text-gray-900 mb-3">¡Solicitud enviada!</h2>
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-3">¡Revisa tu correo!</h2>
           <p className="text-gray-500 mb-2">
             Gracias, <span className="font-semibold text-gray-700">{data.prefix} {data.name}</span>.
           </p>
           <p className="text-gray-500 mb-8 text-sm leading-relaxed">
-            Nuestro equipo revisará tu perfil en las próximas <strong>24–48 horas</strong> y te contactará a <strong>{data.email}</strong> para los siguientes pasos.
+            Te enviamos un link de confirmación a <strong>{data.email}</strong>. Una vez que confirmes, podrás acceder a tu panel y tu perfil será revisado por nuestro equipo en <strong>24–48 horas</strong>.
           </p>
           <div className="space-y-3">
             <Link
@@ -164,6 +212,29 @@ export default function UnetePage() {
                   onChange={e => set('email', e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
                 />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1.5">Contraseña *</label>
+                <input
+                  type="password"
+                  placeholder="Mínimo 6 caracteres"
+                  value={data.password}
+                  onChange={e => set('password', e.target.value)}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1.5">Confirmar contraseña *</label>
+                <input
+                  type="password"
+                  placeholder="Repite tu contraseña"
+                  value={data.confirmPassword}
+                  onChange={e => set('confirmPassword', e.target.value)}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                />
+                {data.confirmPassword && data.password !== data.confirmPassword && (
+                  <p className="text-xs text-red-500 mt-1">Las contraseñas no coinciden.</p>
+                )}
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Teléfono *</label>
@@ -412,11 +483,16 @@ export default function UnetePage() {
             ) : (
               <button
                 type="button"
-                onClick={() => setDone(true)}
-                className="flex items-center gap-2 px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold rounded-lg transition-colors"
+                onClick={handleSubmit}
+                disabled={loading}
+                className="flex items-center gap-2 px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Enviar solicitud
-                <CheckCircle size={16} />
+                {loading ? (
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <CheckCircle size={16} />
+                )}
+                {loading ? 'Creando cuenta...' : 'Enviar solicitud'}
               </button>
             )}
           </div>
