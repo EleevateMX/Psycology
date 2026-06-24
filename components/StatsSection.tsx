@@ -1,26 +1,55 @@
-import { Users, Heart, Star, Stethoscope } from 'lucide-react';
+import { Users, Star, Building2, Globe } from 'lucide-react';
 
 const stats = [
-  { icon: Users, value: '200+', label: 'Psicólogos registrados' },
-  { icon: Heart, value: '10,000+', label: 'Pacientes atendidos' },
-  { icon: Star, value: '4.8★', label: 'Calificación promedio' },
-  { icon: Stethoscope, value: '30+', label: 'Especialidades disponibles' },
+  {
+    icon: Users,
+    value: '200+',
+    label: 'Psicólogos',
+    description: 'Profesionales verificados con cédula',
+    color: 'text-violet-600',
+    bg: 'bg-violet-50',
+  },
+  {
+    icon: Star,
+    value: '10,000+',
+    label: 'Pacientes atendidos',
+    description: 'Personas que encontraron su psicólogo',
+    color: 'text-yellow-500',
+    bg: 'bg-yellow-50',
+  },
+  {
+    icon: Building2,
+    value: '4.8★',
+    label: 'Calificación promedio',
+    description: 'Basada en reseñas verificadas',
+    color: 'text-green-600',
+    bg: 'bg-green-50',
+  },
+  {
+    icon: Globe,
+    value: '32',
+    label: 'Especialidades disponibles',
+    description: 'Desde ansiedad hasta TDAH y más',
+    color: 'text-blue-600',
+    bg: 'bg-blue-50',
+  },
 ];
 
 export default function StatsSection() {
   return (
-    <section className="bg-violet-800 py-12">
+    <section className="bg-white border-t border-b border-gray-100 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map(({ icon: Icon, value, label }) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {stats.map(({ icon: Icon, value, label, description, color, bg }) => (
             <div key={label} className="text-center">
-              <div className="flex justify-center mb-2">
-                <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-                  <Icon size={20} className="text-white" />
+              <div className="flex justify-center mb-3">
+                <div className={`w-12 h-12 rounded-xl ${bg} flex items-center justify-center`}>
+                  <Icon size={22} className={color} />
                 </div>
               </div>
-              <div className="text-3xl font-extrabold text-white mb-1">{value}</div>
-              <div className="text-violet-200 text-sm font-medium">{label}</div>
+              <div className="text-3xl font-extrabold text-violet-700 mb-1">{value}</div>
+              <div className="text-gray-900 font-semibold text-sm mb-1">{label}</div>
+              <div className="text-gray-500 text-xs leading-relaxed">{description}</div>
             </div>
           ))}
         </div>

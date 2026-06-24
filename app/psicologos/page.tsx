@@ -4,16 +4,16 @@ import { useState, useMemo, useRef, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import PsychologistCard from '@/components/PsychologistCard'
 import { psychologists } from '@/lib/data'
-import { Video, CalendarDays, Star, DollarSign, ChevronDown, Search, Check } from 'lucide-react'
+import { Video, CalendarDays, Star, DollarSign, ChevronDown, Search, Check, ShieldCheck, Map, X } from 'lucide-react'
 
-const SPECIALTIES = ['Todos', 'Ansiedad', 'Depresión', 'Pareja', 'Infantil', 'TDAH', 'Trauma', 'Duelo', 'Alimentación', 'TCC']
+const SPECIALTIES = ['Todos', 'Ansiedad', 'Depresión', 'Pareja', 'Infantil', 'TDAH', 'Trauma', 'Duelo', 'Alimentación', 'Organizacional', 'Sexología', 'Adicciones']
 
 const PRICE_RANGES = [
   { label: 'Cualquier precio', min: 0, max: Infinity },
-  { label: 'Menos de $600', min: 0, max: 600 },
-  { label: '$600 – $900', min: 600, max: 900 },
-  { label: '$900 – $1,200', min: 900, max: 1200 },
-  { label: 'Más de $1,200', min: 1200, max: Infinity },
+  { label: 'Menos de $700', min: 0, max: 700 },
+  { label: '$700 – $900', min: 700, max: 900 },
+  { label: '$900 – $1,100', min: 900, max: 1100 },
+  { label: 'Más de $1,100', min: 1100, max: Infinity },
 ]
 
 const SORT_OPTIONS = [
@@ -22,6 +22,7 @@ const SORT_OPTIONS = [
   { value: 'reviews', label: 'Más reseñas' },
   { value: 'price-asc', label: 'Menor precio' },
   { value: 'price-desc', label: 'Mayor precio' },
+  { value: 'available', label: 'Disponible hoy' },
 ]
 
 function PsicologosContent() {
@@ -35,9 +36,11 @@ function PsicologosContent() {
   const [onlineOnly, setOnlineOnly] = useState(() => searchParams.get('online') === '1')
   const [availableToday, setAvailableToday] = useState(false)
   const [highRating, setHighRating] = useState(false)
+  const [verifiedOnly, setVerifiedOnly] = useState(false)
   const [priceRangeIdx, setPriceRangeIdx] = useState(0)
   const [priceDropdown, setPriceDropdown] = useState(false)
   const [sortBy, setSortBy] = useState('relevance')
+  const [showMap, setShowMap] = useState(false)
   const priceRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -55,10 +58,15 @@ function PsicologosContent() {
 
   const filtered = useMemo(() => {
     const arr = psychologists.filter(p => {
-      if (selectedSpecialty !== 'Todos' && !p.specialty.toLowerCase().includes(selectedSpecialty.toLowerCase())) return false
+      if (selectedSpecialty !== 'Todos') {
+        const match = p.specialty.toLowerCase().includes(selectedSpecialty.toLowerCase()) ||
+          p.specialties.some(s => s.toLowerCase().includes(selectedSpecialty.toLowerCase()))
+        if (!match) return false
+      }
       if (onlineOnly && !p.online) return false
       if (availableToday && !p.availability?.[0]?.slots?.length) return false
       if (highRating && p.rating < 4.5) return false
+      if (verifiedOnly && !p.verified) return false
       if (priceActive && (p.price < priceMin || p.price >= priceMax)) return false
       return true
     })
@@ -68,26 +76,43 @@ function PsicologosContent() {
       case 'reviews': return [...arr].sort((a, b) => b.reviewCount - a.reviewCount)
       case 'price-asc': return [...arr].sort((a, b) => a.price - b.price)
       case 'price-desc': return [...arr].sort((a, b) => b.price - a.price)
+      case 'available': return [...arr].sort((a, b) => {
+        const aToday = a.availability?.[0]?.slots?.length ?? 0
+        const bToday = b.availability?.[0]?.slots?.length ?? 0
+        return bToday - aToday
+      })
       default: return arr
     }
-  }, [selectedSpecialty, onlineOnly, availableToday, highRating, priceRangeIdx, sortBy, priceMin, priceMax, priceActive])
+  }, [selectedSpecialty, onlineOnly, availableToday, highRating, verifiedOnly, priceRangeIdx, sortBy, priceMin, priceMax, priceActive])
 
   function clearAll() {
     setSelectedSpecialty('Todos')
     setOnlineOnly(false)
     setAvailableToday(false)
     setHighRating(false)
+    setVerifiedOnly(false)
     setPriceRangeIdx(0)
     setSortBy('relevance')
   }
 
-  const hasFilters = selectedSpecialty !== 'Todos' || onlineOnly || availableToday || highRating || priceActive
+  const hasFilters = selectedSpecialty !== 'Todos' || onlineOnly || availableToday || highRating || verifiedOnly || priceActive
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Specialty chips */}
+      {/* Page header */}
+      <div className="bg-white border-b border-gray-100 py-5">
+        <div className="max-w-7xl mx-auto px-4">
+          <h1 className="text-2xl font-extrabold text-gray-900">Psicólogos en Mérida, Yucatán</h1>
+          <p className="text-sm text-gray-500 mt-1">
+            {psychologists.length} profesionales verificados · Atención presencial y en línea · Agenda en minutos
+          </p>
+        </div>
+      </div>
+
+      {/* Filters bar (sticky) */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4">
+          {/* Specialty chips */}
           <div className="flex items-center gap-2 py-3 overflow-x-auto scrollbar-hide">
             {SPECIALTIES.map((s) => (
               <button
@@ -112,8 +137,7 @@ function PsicologosContent() {
                 onlineOnly ? 'bg-violet-100 text-violet-700 border-violet-300 font-medium' : 'bg-white text-gray-600 border-gray-300 hover:border-violet-200 hover:text-violet-600'
               }`}
             >
-              <Video size={13} />
-              Consulta en línea
+              <Video size={13} /> En línea
             </button>
             <button
               onClick={() => setAvailableToday(!availableToday)}
@@ -121,8 +145,7 @@ function PsicologosContent() {
                 availableToday ? 'bg-violet-100 text-violet-700 border-violet-300 font-medium' : 'bg-white text-gray-600 border-gray-300 hover:border-violet-200 hover:text-violet-600'
               }`}
             >
-              <CalendarDays size={13} />
-              Disponible hoy
+              <CalendarDays size={13} /> Disponible hoy
             </button>
             <button
               onClick={() => setHighRating(!highRating)}
@@ -130,8 +153,15 @@ function PsicologosContent() {
                 highRating ? 'bg-violet-100 text-violet-700 border-violet-300 font-medium' : 'bg-white text-gray-600 border-gray-300 hover:border-violet-200 hover:text-violet-600'
               }`}
             >
-              <Star size={13} />
-              4.5+ estrellas
+              <Star size={13} /> 4.5+ estrellas
+            </button>
+            <button
+              onClick={() => setVerifiedOnly(!verifiedOnly)}
+              className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm transition-colors whitespace-nowrap ${
+                verifiedOnly ? 'bg-violet-100 text-violet-700 border-violet-300 font-medium' : 'bg-white text-gray-600 border-gray-300 hover:border-violet-200 hover:text-violet-600'
+              }`}
+            >
+              <ShieldCheck size={13} /> Verificados
             </button>
 
             {/* Price dropdown */}
@@ -164,12 +194,20 @@ function PsicologosContent() {
               )}
             </div>
 
+            {/* Mobile map toggle */}
+            <button
+              onClick={() => setShowMap(!showMap)}
+              className="shrink-0 lg:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm transition-colors whitespace-nowrap bg-white text-gray-600 border-gray-300 hover:border-violet-200"
+            >
+              <Map size={13} /> {showMap ? 'Ocultar mapa' : 'Ver mapa'}
+            </button>
+
             {hasFilters && (
               <button
                 onClick={clearAll}
-                className="shrink-0 px-3 py-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors whitespace-nowrap underline"
+                className="shrink-0 flex items-center gap-1 px-3 py-1.5 text-sm text-gray-400 hover:text-red-500 transition-colors whitespace-nowrap"
               >
-                Limpiar
+                <X size={13} /> Limpiar
               </button>
             )}
           </div>
@@ -185,9 +223,10 @@ function PsicologosContent() {
             {/* Count + sort */}
             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
               <p className="text-sm text-gray-600">
-                <span className="font-bold text-gray-900">{filtered.length}</span> psicólogos en Mérida
+                <span className="font-bold text-gray-900">{filtered.length}</span>{' '}
+                {filtered.length === 1 ? 'psicólogo' : 'psicólogos'} en Mérida
                 {selectedSpecialty !== 'Todos' && (
-                  <span className="ml-1 text-violet-700">· {selectedSpecialty}</span>
+                  <span className="ml-1 text-violet-700 font-medium">· {selectedSpecialty}</span>
                 )}
               </p>
               <select
@@ -201,17 +240,32 @@ function PsicologosContent() {
               </select>
             </div>
 
+            {/* Mobile map (collapsible) */}
+            {showMap && (
+              <div className="lg:hidden mb-4 rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <iframe
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=-89.75%2C20.87%2C-89.50%2C21.07&layer=mapnik"
+                  width="100%"
+                  height="280"
+                  style={{ border: 'none', display: 'block' }}
+                  title="Mapa de psicólogos en Mérida"
+                  loading="lazy"
+                />
+              </div>
+            )}
+
             {filtered.length === 0 ? (
               <div className="text-center py-16 text-gray-500">
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search size={28} className="text-gray-300" />
                 </div>
-                <p className="font-medium">No se encontraron psicólogos con estos filtros</p>
+                <p className="font-semibold text-gray-700">No se encontraron psicólogos con estos filtros</p>
+                <p className="text-sm text-gray-400 mt-1">Intenta ajustar los filtros o ampliar tu búsqueda</p>
                 <button
                   onClick={clearAll}
-                  className="mt-4 text-sm text-violet-600 hover:text-violet-700 underline"
+                  className="mt-4 text-sm text-violet-600 hover:text-violet-700 underline font-medium"
                 >
-                  Limpiar filtros
+                  Limpiar todos los filtros
                 </button>
               </div>
             ) : (
@@ -223,8 +277,8 @@ function PsicologosContent() {
             )}
           </div>
 
-          {/* Map column (sticky) */}
-          <div className="w-full lg:w-96 xl:w-[420px] shrink-0">
+          {/* Map column (sticky, desktop only) */}
+          <div className="hidden lg:block w-96 xl:w-[420px] shrink-0">
             <div className="sticky top-32">
               <div className="relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
                 <a
@@ -233,19 +287,19 @@ function PsicologosContent() {
                   rel="noopener noreferrer"
                   className="absolute top-3 right-3 z-10 bg-white text-violet-700 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md hover:bg-violet-50 transition-colors"
                 >
-                  Ampliar mapa →
+                  Ampliar →
                 </a>
                 <iframe
                   src="https://www.openstreetmap.org/export/embed.html?bbox=-89.75%2C20.87%2C-89.50%2C21.07&layer=mapnik"
                   width="100%"
-                  height="600"
+                  height="580"
                   style={{ border: 'none', display: 'block' }}
                   title="Mapa de psicólogos en Mérida"
                   loading="lazy"
                 />
               </div>
               <p className="text-xs text-gray-400 mt-2 text-center">
-                Mapa de psicólogos en Mérida, Yucatán
+                Psicólogos en Mérida, Yucatán · <span className="font-medium">{filtered.length} resultados</span>
               </p>
             </div>
           </div>

@@ -8,15 +8,43 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Psique - Encuentra tu Psicólogo Ideal | Mérida, México',
-  description: 'Directorio de psicólogos verificados en Mérida, Yucatán. Encuentra al especialista ideal para ti. Terapia presencial y en línea. Más de 200 psicólogos certificados.',
-  manifest: '/manifest.webmanifest',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: 'Psique',
+  title: {
+    default: 'Psique — Psicólogos Verificados en Mérida y México',
+    template: '%s | Psique Mérida',
   },
+  description: 'Encuentra psicólogos verificados en Mérida, Yucatán. Perfiles reales, reseñas de pacientes, citas en línea y presenciales. Especialidades: ansiedad, depresión, pareja, infantil, TDAH y más.',
+  keywords: ['psicólogos Mérida', 'psicólogo online México', 'terapia psicológica Mérida', 'terapia de pareja Mérida', 'psicólogo infantil Mérida', 'ansiedad Mérida', 'salud mental Yucatán', 'psique psicólogos'],
+  authors: [{ name: 'Psique MX' }],
+  creator: 'Psique MX',
+  openGraph: {
+    type: 'website',
+    locale: 'es_MX',
+    url: 'https://psique.mx',
+    siteName: 'Psique',
+    title: 'Psique — Psicólogos Verificados en Mérida y México',
+    description: 'Encuentra psicólogos verificados en Mérida. Agenda citas presenciales y en línea.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Psique — Psicólogos en Mérida' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Psique — Psicólogos Verificados en Mérida',
+    description: 'Encuentra psicólogos verificados en Mérida. Citas presenciales y en línea.',
+  },
+  robots: { index: true, follow: true },
+  manifest: '/manifest.webmanifest',
+  themeColor: '#6D28D9',
+  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'Psique' },
 };
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalOrganization',
+  name: 'Psique',
+  description: 'Directorio de psicólogos verificados en Mérida, Yucatán.',
+  url: 'https://psique.mx',
+  areaServed: { '@type': 'City', name: 'Mérida', containedIn: 'Yucatán, México' },
+  specialty: 'Psicología y Salud Mental',
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -30,6 +58,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{
             __html: "if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}))}",
           }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body>
