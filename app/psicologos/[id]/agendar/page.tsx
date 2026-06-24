@@ -31,6 +31,7 @@ export default function AgendarPage() {
     modality: 'presencial',
   })
   const [confirmId] = useState(() => CONFIRMATION_ID())
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   function downloadICS() {
     if (!selectedDayData || !selectedSlot || !p) return
@@ -81,6 +82,31 @@ export default function AgendarPage() {
 
   const canProceedStep0 = selectedDay !== null && selectedSlot !== null
   const canProceedStep1 = patient.firstName && patient.lastName && patient.email && patient.phone
+
+  async function handleConfirmBooking() {
+    if (!p || !selectedDayData || !selectedSlot) return
+    setIsSubmitting(true)
+    try {
+      await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          psychologistName: `${p.prefix} ${p.name}`,
+          psychologistId: p.id,
+          date: selectedDayData.label,
+          slot: selectedSlot,
+          modality: patient.modality,
+          patient,
+          confirmId,
+        }),
+      })
+    } catch {
+      // proceed regardless — confirmation still shown
+    } finally {
+      setIsSubmitting(false)
+      setStep(2)
+    }
+  }
 
   const labelClass = 'block text-xs font-semibold text-gray-600 mb-1.5'
   const inputClass = 'w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500'
@@ -247,7 +273,7 @@ export default function AgendarPage() {
                               : 'border-gray-200 hover:border-violet-300 hover:text-violet-700 text-gray-700'
                           }`}
                         >
-                          <div className="font-semibold leading-tight">{day.label.split(' ').slice(0, -1).join(' ')}</div>
+                          <div className="font-semibold leading-tight">{day.label}</div>
                           <div className="text-xs opacity-70 mt-0.5">
                             {day.slots.length === 0 ? 'Sin horario' : `${day.slots.length} horario${day.slots.length > 1 ? 's' : ''}`}
                           </div>
@@ -385,11 +411,21 @@ export default function AgendarPage() {
                 <div className="flex justify-end pt-6 border-t border-gray-100 mt-6">
                   <button
                     type="button"
-                    disabled={!canProceedStep1}
-                    onClick={() => setStep(2)}
-                    className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                    disabled={!canProceedStep1 || isSubmitting}
+                    onClick={handleConfirmBooking}
+                    className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2"
                   >
-                    Confirmar cita →
+                    {isSubmitting ? (
+                      <>
+                        <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                        </svg>
+                        Confirmando...
+                      </>
+                    ) : (
+                      'Confirmar cita →'
+                    )}
                   </button>
                 </div>
               </div>

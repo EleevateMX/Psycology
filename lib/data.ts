@@ -40,10 +40,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r3', author: 'Miguel T.', rating: 4, date: '2024-09-12', comment: 'Muy buena experiencia. La doctora escucha con atención y explica todo muy claramente. El precio es justo por la calidad.', verified: false },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: ['09:00', '11:30', '15:00'] },
-      { label: 'Mañana 24 jun', slots: ['10:00', '14:30'] },
-      { label: 'Mié 25 jun', slots: [] },
-      { label: 'Jue 26 jun', slots: ['09:00', '12:00', '16:00'] },
+      { label: 'Hoy', slots: ['09:00', '11:30', '15:00'] },
+      { label: 'Mañana', slots: ['10:00', '14:30'] },
+      { label: 'Mié', slots: [] },
+      { label: 'Jue', slots: ['09:00', '12:00', '16:00'] },
     ],
   },
   {
@@ -85,10 +85,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r6', author: 'Ricardo V.', rating: 4, date: '2024-08-22', comment: 'Buen profesional, puntual y muy conocedor del tema. El consultorio es muy cómodo y privado. Lo recomiendo ampliamente.', verified: false },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: [] },
-      { label: 'Mañana 24 jun', slots: ['09:30', '13:00', '17:00'] },
-      { label: 'Mié 25 jun', slots: ['10:00', '16:00'] },
-      { label: 'Jue 26 jun', slots: ['11:00'] },
+      { label: 'Hoy', slots: [] },
+      { label: 'Mañana', slots: ['09:30', '13:00', '17:00'] },
+      { label: 'Mié', slots: ['10:00', '16:00'] },
+      { label: 'Jue', slots: ['11:00'] },
     ],
   },
   {
@@ -130,10 +130,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r9', author: 'Lucía S. (mamá)', rating: 5, date: '2024-10-18', comment: 'Increíble la transformación de mi hijo después de 6 meses con la Dra. Castillo. Su metodología es única y efectiva.', verified: true },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: ['15:00', '16:30'] },
-      { label: 'Mañana 24 jun', slots: ['09:00', '10:30', '12:00'] },
-      { label: 'Mié 25 jun', slots: ['09:00'] },
-      { label: 'Jue 26 jun', slots: [] },
+      { label: 'Hoy', slots: ['15:00', '16:30'] },
+      { label: 'Mañana', slots: ['09:00', '10:30', '12:00'] },
+      { label: 'Mié', slots: ['09:00'] },
+      { label: 'Jue', slots: [] },
     ],
   },
   {
@@ -175,10 +175,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r12', author: 'Valentina C.', rating: 4, date: '2024-08-15', comment: 'Buen profesional, aunque el precio es alto. Vale la pena por la especialización que tiene. Me sentí segura desde la primera sesión.', verified: false },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: [] },
-      { label: 'Mañana 24 jun', slots: [] },
-      { label: 'Mié 25 jun', slots: ['11:00', '13:30'] },
-      { label: 'Jue 26 jun', slots: ['11:00', '15:00', '17:30'] },
+      { label: 'Hoy', slots: [] },
+      { label: 'Mañana', slots: [] },
+      { label: 'Mié', slots: ['11:00', '13:30'] },
+      { label: 'Jue', slots: ['11:00', '15:00', '17:30'] },
     ],
   },
   {
@@ -220,10 +220,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r15', author: 'Isabella K.', rating: 5, date: '2024-10-10', comment: 'Excelente terapeuta. Cambió completamente mi relación con la comida y mi cuerpo. Muy recomendada para TCA.', verified: true },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: ['10:00', '12:30'] },
-      { label: 'Mañana 24 jun', slots: ['09:00', '11:00', '14:00'] },
-      { label: 'Mié 25 jun', slots: ['10:00', '15:30'] },
-      { label: 'Jue 26 jun', slots: [] },
+      { label: 'Hoy', slots: ['10:00', '12:30'] },
+      { label: 'Mañana', slots: ['09:00', '11:00', '14:00'] },
+      { label: 'Mié', slots: ['10:00', '15:30'] },
+      { label: 'Jue', slots: [] },
     ],
   },
   {
@@ -265,10 +265,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r18', author: 'Héctor J.', rating: 5, date: '2024-09-05', comment: 'Como adulto con TDAH, finalmente encontré a alguien que entiende mis desafíos. Sus estrategias son prácticas y funcionan.', verified: false },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: ['14:00'] },
-      { label: 'Mañana 24 jun', slots: [] },
-      { label: 'Mié 25 jun', slots: ['09:00', '10:30', '13:00'] },
-      { label: 'Jue 26 jun', slots: ['14:00', '16:00'] },
+      { label: 'Hoy', slots: ['14:00'] },
+      { label: 'Mañana', slots: [] },
+      { label: 'Mié', slots: ['09:00', '10:30', '13:00'] },
+      { label: 'Jue', slots: ['14:00', '16:00'] },
     ],
   },
   {
@@ -310,10 +310,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r21', author: 'Laura M.', rating: 4, date: '2024-09-20', comment: 'Muy empática y con un enfoque diferente al de otros psicólogos. Me ayudó a procesar un divorcio difícil. Altamente recomendada.', verified: true },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: [] },
-      { label: 'Mañana 24 jun', slots: ['17:00', '18:30'] },
-      { label: 'Mié 25 jun', slots: ['16:00'] },
-      { label: 'Jue 26 jun', slots: ['09:00', '10:00', '17:00'] },
+      { label: 'Hoy', slots: [] },
+      { label: 'Mañana', slots: ['17:00', '18:30'] },
+      { label: 'Mié', slots: ['16:00'] },
+      { label: 'Jue', slots: ['09:00', '10:00', '17:00'] },
     ],
   },
   {
@@ -355,10 +355,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r24', author: 'Roberto S.', rating: 4, date: '2024-08-28', comment: 'Muy buen terapeuta familiar. Logró que mi esposa y yo pudiéramos hablar sin pelear. La distancia desde el centro es un poco lejos, pero vale la pena.', verified: false },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: ['18:00'] },
-      { label: 'Mañana 24 jun', slots: ['10:00', '12:00'] },
-      { label: 'Mié 25 jun', slots: ['18:00'] },
-      { label: 'Jue 26 jun', slots: [] },
+      { label: 'Hoy', slots: ['18:00'] },
+      { label: 'Mañana', slots: ['10:00', '12:00'] },
+      { label: 'Mié', slots: ['18:00'] },
+      { label: 'Jue', slots: [] },
     ],
   },
   {
@@ -400,10 +400,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r27', author: 'Diana L.', rating: 4, date: '2024-10-03', comment: 'Muy buena experiencia. La doctora tiene una calidad humana enorme y se nota que le apasiona lo que hace. Las sesiones en línea funcionan muy bien.', verified: false },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: ['16:00', '17:30'] },
-      { label: 'Mañana 24 jun', slots: ['09:00', '11:00', '13:30'] },
-      { label: 'Mié 25 jun', slots: ['10:00'] },
-      { label: 'Jue 26 jun', slots: ['09:00', '15:00'] },
+      { label: 'Hoy', slots: ['16:00', '17:30'] },
+      { label: 'Mañana', slots: ['09:00', '11:00', '13:30'] },
+      { label: 'Mié', slots: ['10:00'] },
+      { label: 'Jue', slots: ['09:00', '15:00'] },
     ],
   },
   {
@@ -445,10 +445,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r30', author: 'Marcos V.', rating: 4, date: '2024-09-19', comment: 'Muy buen profesional. Sus sesiones son claras, estructuradas y con resultados concretos. El precio es alto pero completamente justificado.', verified: false },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: [] },
-      { label: 'Mañana 24 jun', slots: ['09:00', '10:30', '12:00'] },
-      { label: 'Mié 25 jun', slots: ['08:30', '14:00'] },
-      { label: 'Jue 26 jun', slots: ['09:00', '11:00', '16:30'] },
+      { label: 'Hoy', slots: [] },
+      { label: 'Mañana', slots: ['09:00', '10:30', '12:00'] },
+      { label: 'Mié', slots: ['08:30', '14:00'] },
+      { label: 'Jue', slots: ['09:00', '11:00', '16:30'] },
     ],
   },
   {
@@ -490,10 +490,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r33', author: 'Natalia F.', rating: 5, date: '2024-09-25', comment: 'Gracias a la Dra. Espinoza pude entender y aceptar aspectos de mi identidad que tenía reprimidos. Un trabajo terapéutico profundo y respetuoso.', verified: false },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: ['11:00', '13:00'] },
-      { label: 'Mañana 24 jun', slots: [] },
-      { label: 'Mié 25 jun', slots: ['15:00', '16:30', '18:00'] },
-      { label: 'Jue 26 jun', slots: ['10:00', '12:00'] },
+      { label: 'Hoy', slots: ['11:00', '13:00'] },
+      { label: 'Mañana', slots: [] },
+      { label: 'Mié', slots: ['15:00', '16:30', '18:00'] },
+      { label: 'Jue', slots: ['10:00', '12:00'] },
     ],
   },
   {
@@ -535,10 +535,10 @@ export const psychologists: Psychologist[] = [
       { id: 'r36', author: 'Silvia C.', rating: 5, date: '2024-09-08', comment: 'Fui como familiar de un adicto y el Dr. Montes me ayudó a entender la enfermedad y a dejar de ser codependiente. Cambió mi perspectiva completamente.', verified: false },
     ],
     availability: [
-      { label: 'Hoy 23 jun', slots: [] },
-      { label: 'Mañana 24 jun', slots: ['10:00', '12:00'] },
-      { label: 'Mié 25 jun', slots: [] },
-      { label: 'Jue 26 jun', slots: ['10:00', '11:30', '15:00'] },
+      { label: 'Hoy', slots: [] },
+      { label: 'Mañana', slots: ['10:00', '12:00'] },
+      { label: 'Mié', slots: [] },
+      { label: 'Jue', slots: ['10:00', '11:30', '15:00'] },
     ],
   },
 ];
