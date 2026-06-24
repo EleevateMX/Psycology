@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Wind, CloudRain, Heart, Baby, Brain, Users, HeartCrack, Zap } from 'lucide-react'
+import { Wind, CloudRain, Heart, Baby, Brain, Users, HeartCrack, Zap, Activity, BarChart2, Flame, Sparkles } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 interface Specialty {
@@ -19,6 +19,10 @@ const specialties: Specialty[] = [
   { icon: Users, iconBg: 'bg-green-50', iconColor: 'text-green-600', name: 'Terapia Familiar', slug: 'Familia' },
   { icon: HeartCrack, iconBg: 'bg-gray-50', iconColor: 'text-gray-500', name: 'Duelo y Pérdida', slug: 'Duelo' },
   { icon: Zap, iconBg: 'bg-indigo-50', iconColor: 'text-indigo-600', name: 'TDAH', slug: 'TDAH' },
+  { icon: Activity, iconBg: 'bg-red-50', iconColor: 'text-red-500', name: 'Trauma y PTSD', slug: 'Trauma' },
+  { icon: BarChart2, iconBg: 'bg-purple-50', iconColor: 'text-purple-600', name: 'Psicología Organizacional', slug: 'Organizacional' },
+  { icon: Flame, iconBg: 'bg-rose-50', iconColor: 'text-rose-500', name: 'Adicciones', slug: 'Adicciones' },
+  { icon: Sparkles, iconBg: 'bg-fuchsia-50', iconColor: 'text-fuchsia-500', name: 'Sexología Clínica', slug: 'Sexología' },
 ]
 
 export default function SpecialtiesSection() {
@@ -35,7 +39,7 @@ export default function SpecialtiesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {specialties.map(({ icon: Icon, iconBg, iconColor, name, slug }) => (
             <Link
               key={slug}
@@ -50,6 +54,15 @@ export default function SpecialtiesSection() {
               </h3>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <Link
+            href="/psicologos"
+            className="inline-flex items-center gap-1 text-violet-700 font-semibold hover:text-violet-900 transition-colors"
+          >
+            Ver todas las especialidades →
+          </Link>
         </div>
       </div>
     </section>

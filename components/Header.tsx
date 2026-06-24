@@ -95,10 +95,10 @@ export default function Header() {
                   <Link href="/unete" onClick={() => setProfDropdown(false)} className="block px-4 py-3 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700">
                     Registrarme gratis
                   </Link>
-                  <Link href="/unete" onClick={() => setProfDropdown(false)} className="block px-4 py-3 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 border-t border-gray-100">
+                  <Link href="/profesionales" onClick={() => setProfDropdown(false)} className="block px-4 py-3 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 border-t border-gray-100">
                     Zona para profesionales
                   </Link>
-                  <Link href="/unete" onClick={() => setProfDropdown(false)} className="block px-4 py-3 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 border-t border-gray-100">
+                  <Link href="/profesionales#planes" onClick={() => setProfDropdown(false)} className="block px-4 py-3 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 border-t border-gray-100">
                     Precios y planes
                   </Link>
                 </div>

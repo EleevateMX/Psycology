@@ -6,7 +6,9 @@ import StatsSection from '@/components/StatsSection';
 import HowItWorks from '@/components/HowItWorks';
 import SpecialtiesSection from '@/components/SpecialtiesSection';
 import FeaturedPsychologists from '@/components/FeaturedPsychologists';
-import JoinSection from '@/components/JoinSection';
+import JoinSection from '@/components/JoinSection'
+import BlogPreview from '@/components/BlogPreview'
+import TestimonialsSection from '@/components/TestimonialsSection';
 
 export const metadata: Metadata = {
   title: 'Psicólogos en Mérida — Encuentra y Agenda Online | Psique',
@@ -21,6 +23,7 @@ export default function Home() {
       <HowItWorks />
       <SpecialtiesSection />
       <FeaturedPsychologists />
+      <BlogPreview />
 
       {/* Sección dual: pacientes y psicólogos */}
       <section className="py-16 bg-white">
@@ -69,6 +72,7 @@ export default function Home() {
         </div>
       </section>
 
+      <TestimonialsSection />
       <JoinSection />
     </>
   );

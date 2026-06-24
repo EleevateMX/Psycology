@@ -32,7 +32,6 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   manifest: '/manifest.webmanifest',
-  themeColor: '#6D28D9',
   appleWebApp: { capable: true, statusBarStyle: 'default', title: 'Psique' },
 };
 

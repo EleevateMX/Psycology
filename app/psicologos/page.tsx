@@ -41,6 +41,7 @@ function PsicologosContent() {
   const [priceDropdown, setPriceDropdown] = useState(false)
   const [sortBy, setSortBy] = useState('relevance')
   const [showMap, setShowMap] = useState(false)
+  const [search, setSearch] = useState('')
   const priceRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -58,6 +59,12 @@ function PsicologosContent() {
 
   const filtered = useMemo(() => {
     const arr = psychologists.filter(p => {
+      if (search.trim()) {
+        const q = search.toLowerCase()
+        const nameMatch = p.name.toLowerCase().includes(q)
+        const specMatch = p.specialty.toLowerCase().includes(q) || p.specialties.some(s => s.toLowerCase().includes(q))
+        if (!nameMatch && !specMatch) return false
+      }
       if (selectedSpecialty !== 'Todos') {
         const match = p.specialty.toLowerCase().includes(selectedSpecialty.toLowerCase()) ||
           p.specialties.some(s => s.toLowerCase().includes(selectedSpecialty.toLowerCase()))
@@ -83,9 +90,10 @@ function PsicologosContent() {
       })
       default: return arr
     }
-  }, [selectedSpecialty, onlineOnly, availableToday, highRating, verifiedOnly, priceRangeIdx, sortBy, priceMin, priceMax, priceActive])
+  }, [search, selectedSpecialty, onlineOnly, availableToday, highRating, verifiedOnly, priceRangeIdx, sortBy, priceMin, priceMax, priceActive])
 
   function clearAll() {
+    setSearch('')
     setSelectedSpecialty('Todos')
     setOnlineOnly(false)
     setAvailableToday(false)
@@ -95,7 +103,7 @@ function PsicologosContent() {
     setSortBy('relevance')
   }
 
-  const hasFilters = selectedSpecialty !== 'Todos' || onlineOnly || availableToday || highRating || verifiedOnly || priceActive
+  const hasFilters = search.trim() !== '' || selectedSpecialty !== 'Todos' || onlineOnly || availableToday || highRating || verifiedOnly || priceActive
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -112,6 +120,23 @@ function PsicologosContent() {
       {/* Filters bar (sticky) */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4">
+          {/* Search input */}
+          <div className="relative py-3 border-b border-gray-100">
+            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+            <input
+              type="text"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Buscar por nombre o especialidad..."
+              className="w-full pl-9 pr-4 py-2 text-sm text-gray-700 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+            />
+            {search && (
+              <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                <X size={14} />
+              </button>
+            )}
+          </div>
+
           {/* Specialty chips */}
           <div className="flex items-center gap-2 py-3 overflow-x-auto scrollbar-hide">
             {SPECIALTIES.map((s) => (
